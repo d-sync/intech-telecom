@@ -1,0 +1,24 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Login - Telecom</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{../../resources/static/style.css}" href="../../resources/static/style.css"/>
+</head>
+<body onload='document.loginForm.username.focus();'>
+<h1 class="login-h1" align="center">Введите идентификационный код</h1>
+<div class="container">
+    <form class="form-signin" name='loginForm' action="" method='POST'>
+        <input class="form-control" placeholder="msisdn" type="text" name="username"/>
+        <input class="form-control" placeholder="password" type="text" name="password"/>
+        <div class="${not empty error}?('error') bg-danger" th:text="${error}"></div>
+        <div class="${not empty msg}?('msg') bg-danger" th:text="${msg}"></div>
+        <br/>
+        <input class="btn btn-lg btn-primary btn-block" name="submit" type="submit" value="OK"/>
+    </form>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Home - Telecom</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{../../resources/static/style.css}" href="../../resources/static/style.css"/>
+</head>
+<body>
+    <h1>home</h1>
+    <p>Для выбора раздела введите:</p>
+    <p>1 - для просмотра контента</p>
+    <p>2 - для входа в личный кабинет</p>
+    <p>3 - для просмотра информации</p>
+
+    <form action="/home/menu" method="get">
+        <input class="form-control" placeholder="Введите число" type="text" name="num"/>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" value="OK"/>
+    </form>
+
+</body>
+</html>
