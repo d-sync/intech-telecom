@@ -9,35 +9,31 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+
 @Repository
 @Transactional
-public class RoleDaoImpl implements RoleDao {
+public class RoleDaoImpl  implements RoleDao {
 
-    @PersistenceContext
-    EntityManager entityManager;
+	@PersistenceContext
+	EntityManager entityManager;
 
-    @Override
-    public void persist(Role entity) {
-        entityManager.persist(entity);
-    }
+	@Override
+	public void persist(Role entity) {
+		entityManager.persist(entity);
+	}
 
-    @Override
-    public Role getByKey(Integer id) {
-        return null;
-    }
+	@Override
+	public Role getByKey(Long id) {
+		return null;
+	}
 
-    @Override
-    public List<Role> getAll() {
-        return null;
-    }
+	@Override
+	public List<Role> getAll() {
+		return null;
+	}
 
-    @Override
-    public void update(Role group) {
+	@Override
+	public void update(Role group) {
 
-    }
-
-    @Override
-    public void deleteByKey(Integer id) {
-
-    }
+	}
 }

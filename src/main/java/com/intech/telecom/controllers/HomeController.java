@@ -1,27 +1,44 @@
 package com.intech.telecom.controllers;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping(value = "/home")
 public class HomeController {
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView getLoginForm(HttpServletRequest request,
+									 HttpServletResponse response,
+									 @RequestParam(value = "error", required = false) String error,
+									 @RequestParam(value = "logout", required = false) String logout) throws Exception {
+
+		ModelAndView model = new ModelAndView("login");
+		if (error != null) {
+			model.addObject("error", "Invalid msisdn and password!");
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String getHello() {
+		return "hello";
+	}
+
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String getAdminPage() {
 		return "home";
 	}
 
-	@RequestMapping(value = "/menu", method = RequestMethod.GET)
-	public String getPage(@RequestParam(value = "num") String number)  {
-		switch (number) {
-			case "1" : return "content";
-			case "2" : return "account";
-			case "3" : return "info";
-			default: return "home";
-		}
-	}
+
+
 }

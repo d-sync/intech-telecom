@@ -1,40 +1,29 @@
-package com.intech.telecom.models;
+package com.intech.telecom.models.content;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "audios")
-public class Audio {
-
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Audio implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
 	private Long id;
 
-	@Column(name = "artsit")
+	@Column(name = "artist")
 	private String artist;
 
 	@Column(name = "composition")
 	private String composition;
 
-	@Column(name = "isPopular")
-	private boolean isPopular;
-
-	@Column(name = "isNewest")
-	private boolean isNewest;
-
-	@Column(name = "isHit")
-	private boolean isHit;
-
 	public Audio() {
 	}
 
-	public Audio(String artist, String composition, boolean isPopular, boolean isNewest, boolean isHit) {
+	public Audio(String artist, String composition) {
 		this.artist = artist;
 		this.composition = composition;
-		this.isPopular = isPopular;
-		this.isNewest = isNewest;
-		this.isHit = isHit;
 	}
 
 	public Long getId() {
@@ -61,29 +50,6 @@ public class Audio {
 		this.composition = composition;
 	}
 
-	public boolean isPopular() {
-		return isPopular;
-	}
-
-	public void setPopular(boolean popular) {
-		isPopular = popular;
-	}
-
-	public boolean isNewest() {
-		return isNewest;
-	}
-
-	public void setNewest(boolean newest) {
-		isNewest = newest;
-	}
-
-	public boolean isHit() {
-		return isHit;
-	}
-
-	public void setHit(boolean hit) {
-		isHit = hit;
-	}
 
 	@Override
 	public boolean equals(Object o) {

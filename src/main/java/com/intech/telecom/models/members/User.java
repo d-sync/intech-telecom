@@ -1,5 +1,6 @@
 package com.intech.telecom.models.members;
 
+import com.intech.telecom.models.content.Audio;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,7 +18,7 @@ public class User implements UserDetails {
     private int id;
 
     @Column(name = "username")
-    private String username;
+    private String msisdn;
 
     @Column(name = "password")
     private String password;
@@ -27,6 +28,12 @@ public class User implements UserDetails {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
+
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Audio.class)
+    @JoinTable(name = "user_to_audio",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "audio_id")})
+    private Set<Audio> audios;
 
 
     public User() {
@@ -46,7 +53,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return msisdn;
     }
 
     @Override
@@ -77,8 +84,8 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String msisdn) {
+        this.msisdn = msisdn;
     }
 
     public void setPassword(String password) {
@@ -91,5 +98,25 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getMsisdn() {
+        return msisdn;
+    }
+
+    public void setMsisdn(String msisdn) {
+        this.msisdn = msisdn;
+    }
+
+    public Set<Audio> getAudios() {
+        return audios;
+    }
+
+    public void setAudios(Set<Audio> audios) {
+        this.audios = audios;
+    }
+
+    public void addAudio(Audio audio) {
+        audios.add(audio);
     }
 }

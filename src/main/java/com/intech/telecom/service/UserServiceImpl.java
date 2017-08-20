@@ -2,6 +2,7 @@ package com.intech.telecom.service;
 
 
 import com.intech.telecom.dao.UserDao;
+import com.intech.telecom.models.content.Audio;
 import com.intech.telecom.models.members.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    AudioService audioService;
 
     @Override
     public User getUserByUsername(String username) {
@@ -27,5 +31,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userDao.getAll();
+    }
+
+    @Override
+    public Audio buyAudioById(String msisdn, Long id) {
+        Audio audio = audioService.getAudioById(id);
+        boolean isAudioAlreadyPurchased = userDao.buyAudioById(msisdn, audio);
+        if (isAudioAlreadyPurchased) audio = null;
+        return audio;
+    }
+
+    @Override
+    public void deleteAudioFromAccount(String msisdn, Long id) {
+        Audio audio = audioService.getAudioById(id);
+        User user = userDao.geUserByUsername(msisdn);
+        user.getAudios().remove(audio);
+        userDao.update(user);
     }
 }

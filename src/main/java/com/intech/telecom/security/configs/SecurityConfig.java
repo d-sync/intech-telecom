@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/audio/**").hasAnyAuthority("USER")
 				.antMatchers("/home/**").hasAnyAuthority("USER")
 				.antMatchers("/info/**").hasAnyAuthority("USER")
+				.antMatchers("/content/**").hasAnyAuthority("USER")
 				.and()
 				.formLogin()
 				.loginPage("/login")
