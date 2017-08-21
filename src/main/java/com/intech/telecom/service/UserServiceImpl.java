@@ -42,10 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteAudioFromAccount(String msisdn, Long id) {
+    public Audio deleteAudioFromAccount(String msisdn, Long id) {
         Audio audio = audioService.getAudioById(id);
         User user = userDao.geUserByUsername(msisdn);
         user.getAudios().remove(audio);
         userDao.update(user);
+        return audio;
     }
 }

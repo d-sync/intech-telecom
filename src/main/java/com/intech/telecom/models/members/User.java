@@ -17,10 +17,10 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private int id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String msisdn;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @OneToMany(fetch = FetchType.EAGER, targetEntity = Role.class)

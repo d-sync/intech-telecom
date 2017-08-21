@@ -15,5 +15,5 @@ public interface UserService {
 
 	Audio buyAudioById(String msisdn, Long id);
 
-	void deleteAudioFromAccount(String msisdn, Long id);
+	Audio deleteAudioFromAccount(String msisdn, Long id);
 }

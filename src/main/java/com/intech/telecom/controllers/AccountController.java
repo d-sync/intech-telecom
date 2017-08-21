@@ -40,13 +40,19 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public void deleteAudioFromAccount(@RequestParam(value = "id") Long id,
+	public ModelAndView deleteAudioFromAccount(@RequestParam(value = "id") Long id,
 									   HttpServletResponse response,
 									   HttpServletRequest request) throws IOException {
+		ModelAndView modelAndView = new ModelAndView("account");
 		String msisdn = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-		userService.deleteAudioFromAccount(msisdn, id);
-		request.setAttribute("id", id);
-		response.sendRedirect("");
+		Audio deleted = userService.deleteAudioFromAccount(msisdn, id);
+		Audio current = audioService.getNextAudioInAccount(msisdn, id);
+		modelAndView.addObject("msg", "Удалено: " + deleted);
+		if (current == null) {
+			modelAndView.addObject("err", "У вас нет купленной музыки");
+		}
+		modelAndView.addObject("audio", current);
+		return modelAndView;
 	}
 
 
