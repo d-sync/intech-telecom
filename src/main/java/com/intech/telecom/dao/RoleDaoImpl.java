@@ -24,16 +24,16 @@ public class RoleDaoImpl  implements RoleDao {
 
 	@Override
 	public Role getByKey(Long id) {
-		return null;
+		return entityManager.find(Role.class, id);
 	}
 
 	@Override
 	public List<Role> getAll() {
-		return null;
+		return entityManager.createQuery("FROM Role", Role.class).getResultList();
 	}
 
 	@Override
 	public void update(Role group) {
-
+		entityManager.merge(group);
 	}
 }

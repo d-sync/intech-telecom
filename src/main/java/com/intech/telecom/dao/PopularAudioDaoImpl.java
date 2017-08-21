@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.sql.ResultSet;
 import java.util.List;
 
 @Repository
@@ -42,12 +41,12 @@ public class PopularAudioDaoImpl implements PopularAudioDao {
 
 	@Override
 	public List<PopularAudio> getAll() {
-		return null;
+		return entityManager.createQuery("FROM PopularAudio", PopularAudio.class).getResultList();
 	}
 
 	@Override
 	public void update(PopularAudio group) {
-
+		entityManager.merge(group);
 	}
 
 }

@@ -29,11 +29,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userDao.getAll();
-    }
-
-    @Override
     public Audio buyAudioById(String msisdn, Long id) {
         Audio audio = audioService.getAudioById(id);
         boolean isAudioAlreadyPurchased = userDao.buyAudioById(msisdn, audio);

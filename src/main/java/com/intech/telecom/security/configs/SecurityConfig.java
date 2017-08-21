@@ -36,11 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// отключена защита csrf на время тестов
 		http.csrf().disable().addFilterBefore(filter, CsrfFilter.class);
 		http.authorizeRequests()
-				.antMatchers("/user/**").hasAnyAuthority("USER")
-				.antMatchers("/audio/**").hasAnyAuthority("USER")
 				.antMatchers("/home/**").hasAnyAuthority("USER")
 				.antMatchers("/info/**").hasAnyAuthority("USER")
 				.antMatchers("/content/**").hasAnyAuthority("USER")
+				.antMatchers("/account/**").hasAnyAuthority("USER")
 				.and()
 				.formLogin()
 				.loginPage("/login")

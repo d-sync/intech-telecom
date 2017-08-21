@@ -19,9 +19,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collection;
 
-/**
- * Handler (то что выберет дальнейший url в зависимости от роли)
- */
 @Service
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	protected Logger logger = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);

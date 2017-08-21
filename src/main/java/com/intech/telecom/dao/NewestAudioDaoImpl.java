@@ -1,7 +1,6 @@
 package com.intech.telecom.dao;
 
 import com.intech.telecom.models.content.NewestAudio;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -11,12 +11,6 @@ public class AudioServiceImpl implements AudioService{
 	@Autowired
 	AudioDao audioDao;
 
-
-	@Override
-	public long getAudioAmount() {
-		return audioDao.getAudioAmount();
-	}
-
 	@Override
 	public Audio getAudioById(Long id) {
 		return audioDao.getByKey(id);
