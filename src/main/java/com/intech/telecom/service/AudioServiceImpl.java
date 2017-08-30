@@ -21,4 +21,24 @@ public class AudioServiceImpl implements AudioService{
 		Audio audio = audioDao.getNextAudioInAccount(msisdn, id);
 		return audio;
 	}
+
+	@Override
+	public Audio getNextPopularAudio(Long id) {
+		return audioDao.getNextPopularAudio(id);
+	}
+
+	@Override
+	public void add(Audio audio) {
+		audioDao.persist(audio);
+	}
+
+	@Override
+	public Audio getNextHitsAudio(Long id) {
+		return audioDao.getNextHitsAudio(id);
+	}
+
+	@Override
+	public Audio getNextNewestAudio(Long id) {
+		return audioDao.getNexNewesttAudio(id);
+	}
 }

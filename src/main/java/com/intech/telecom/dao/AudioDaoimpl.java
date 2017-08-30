@@ -36,13 +36,6 @@ public class AudioDaoimpl implements AudioDao {
 	}
 
 	@Override
-	public long getAudioAmount() {
-		return entityManager.createQuery("SELECT COUNT (a.id) " +
-				"FROM Audio a", Long.class)
-				.getSingleResult();
-	}
-
-	@Override
 	public Audio getNextAudioInAccount(String msisdn, Long id) {
 		List<Audio> audios = entityManager.createQuery("SELECT a FROM User u " +
 				"JOIN u.audios a " +
@@ -51,6 +44,7 @@ public class AudioDaoimpl implements AudioDao {
 				"ORDER BY a.id", Audio.class)
 				.setParameter("msisdn", msisdn)
 				.setParameter("id", id)
+				.setMaxResults(1)
 				.getResultList();
 		if (audios.isEmpty()) {
 			audios = entityManager.createQuery("SELECT a FROM User u " +
@@ -60,6 +54,7 @@ public class AudioDaoimpl implements AudioDao {
 					"ORDER BY a.id", Audio.class)
 					.setParameter("msisdn", msisdn)
 					.setParameter("id", 0L)
+					.setMaxResults(1)
 					.getResultList();
 		}
 		if (audios.isEmpty()) {
@@ -67,4 +62,81 @@ public class AudioDaoimpl implements AudioDao {
 		}
 		return audios.get(0);
 	}
+
+	@Override
+	public Audio getNextPopularAudio(Long id) {
+		List<Audio> audios = entityManager.createQuery("FROM Audio a " +
+				"WHERE a.id>:id " +
+				"AND a.isPopular=true " +
+				"ORDER BY a.id", Audio.class)
+				.setParameter("id", id)
+				.setMaxResults(1)
+				.getResultList();
+
+		if (audios.isEmpty()) {
+			audios = entityManager.createQuery("FROM Audio a " +
+					"WHERE a.id>:id " +
+					"AND a.isPopular=true " +
+					"ORDER BY a.id", Audio.class)
+					.setParameter("id", 0L)
+					.setMaxResults(1)
+					.getResultList();
+		}
+		if (audios.isEmpty()) {
+			return null;
+		}
+		return audios.get(0);
+	}
+
+	@Override
+	public Audio getNextHitsAudio(Long id) {
+		List<Audio> audios = entityManager.createQuery("FROM Audio a " +
+				"WHERE a.id>:id " +
+				"AND a.isHit=true " +
+				"ORDER BY a.id", Audio.class)
+				.setParameter("id", id)
+				.setMaxResults(1)
+				.getResultList();
+
+		if (audios.isEmpty()) {
+			audios = entityManager.createQuery("FROM Audio a " +
+					"WHERE a.id>:id " +
+					"AND a.isHit=true " +
+					"ORDER BY a.id", Audio.class)
+					.setParameter("id", 0L)
+					.setMaxResults(1)
+					.getResultList();
+		}
+		if (audios.isEmpty()) {
+			return null;
+		}
+		return audios.get(0);
+	}
+
+	@Override
+	public Audio getNexNewesttAudio(Long id) {
+		List<Audio> audios = entityManager.createQuery("FROM Audio a " +
+				"WHERE a.id>:id " +
+				"AND a.isNew=true " +
+				"ORDER BY a.id", Audio.class)
+				.setParameter("id", id)
+				.setMaxResults(1)
+				.getResultList();
+
+		if (audios.isEmpty()) {
+			audios = entityManager.createQuery("FROM Audio a " +
+					"WHERE a.id>:id " +
+					"AND a.isNew=true " +
+					"ORDER BY a.id", Audio.class)
+					.setParameter("id", 0L)
+					.setMaxResults(1)
+					.getResultList();
+		}
+		if (audios.isEmpty()) {
+			return null;
+		}
+		return audios.get(0);
+	}
+
+
 }

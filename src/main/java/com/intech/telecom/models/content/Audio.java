@@ -5,8 +5,8 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "audios")
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Audio implements Serializable{
+public class Audio implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
@@ -18,12 +18,53 @@ public abstract class Audio implements Serializable{
 	@Column(name = "composition")
 	private String composition;
 
+	@Column(name = "isNew", nullable = false)
+	private boolean isNew;
+
+	@Column(name = "isPopular", nullable = false)
+	private boolean isPopular;
+
+	@Column(name = "isHit", nullable = false)
+	private boolean isHit;
+
 	public Audio() {
 	}
 
 	public Audio(String artist, String composition) {
 		this.artist = artist;
 		this.composition = composition;
+	}
+
+	public Audio(String artist, String composition, boolean isNew, boolean isPopular, boolean isHit) {
+		this.artist = artist;
+		this.composition = composition;
+		this.isNew = isNew;
+		this.isPopular = isPopular;
+		this.isHit = isHit;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean aNew) {
+		isNew = aNew;
+	}
+
+	public boolean isPopular() {
+		return isPopular;
+	}
+
+	public void setPopular(boolean popular) {
+		isPopular = popular;
+	}
+
+	public boolean isHit() {
+		return isHit;
+	}
+
+	public void setHit(boolean hit) {
+		isHit = hit;
 	}
 
 	public Long getId() {

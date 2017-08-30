@@ -56,12 +56,11 @@
     <hr/>
     <table>
         <form action="/content/newest" method="get">
-            <input type="hidden" name="pid" th:value="${audio.pid}"/>
+            <input type="hidden" name="id" th:value="${audio.id}"/>
             <input class="btn btn-primary btn-lg" type="submit" value="1"/>
         </form>
         <form action="/content/buynew" method="post">
             <input type="hidden" name="id" th:value="${audio.id}"/>
-            <input type="hidden" name="pid" th:value="${audio.pid}"/>
             <input class="btn btn-primary btn-lg" type="submit" value="2"/>
         </form>
         <form action="/other" method="get">

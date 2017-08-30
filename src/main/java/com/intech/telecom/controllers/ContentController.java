@@ -2,9 +2,7 @@ package com.intech.telecom.controllers;
 
 
 import com.intech.telecom.models.content.Audio;
-import com.intech.telecom.service.HitsAudioService;
-import com.intech.telecom.service.NewestAudioService;
-import com.intech.telecom.service.PopularAudioSerice;
+import com.intech.telecom.service.AudioService;
 import com.intech.telecom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,16 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class ContentController {
 
 	@Autowired
-	private PopularAudioSerice popularAudioSerice;
-
-	@Autowired
 	private UserService userService;
 
 	@Autowired
-	private NewestAudioService newestAudioService;
-
-	@Autowired
-	private HitsAudioService hitsAudioService;
+	private AudioService audioService;
 
 	@RequestMapping
 	public String getContentPage() {
@@ -35,98 +27,68 @@ public class ContentController {
 	}
 
 	@RequestMapping(value = "/popular")
-	public ModelAndView getPopularAudio(@RequestParam(value = "pid", required = false) Long pid) {
+	public ModelAndView getPopularAudio(@RequestParam(value = "id", required = false) Long id) {
 		ModelAndView modelAndView = new ModelAndView("popular");
-		if (pid == null) pid = 0L;
-		long amount = popularAudioSerice.getPopularAudioAmount();
-		if (pid >= amount) {
-			pid = 0L;
-		}
-		modelAndView.addObject("audio", popularAudioSerice.getPopularAudioByPid(++pid));
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/buypop", method = RequestMethod.POST)
-	public ModelAndView buyPopularAudio(@RequestParam(value = "id") Long id,
-										@RequestParam(value = "pid") Long pid) {
-		ModelAndView modelAndView = new ModelAndView("popular");
-		String msisdn = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-		Audio audio = userService.buyAudioById(msisdn, id);
-		long amount = popularAudioSerice.getPopularAudioAmount();
-		if (pid > amount) {
-			pid = 0L;
-		}
-		if (audio == null) {
-			modelAndView.addObject("err", "Эта композиция уже была куплена Вами ранее.");
-		} else {
-			modelAndView.addObject("msg", "Вы купили: " + audio);
-		}
-		modelAndView.addObject("audio", popularAudioSerice.getPopularAudioByPid(pid));
-
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/newest")
-	public ModelAndView getNewestAudio(@RequestParam(value = "pid", required = false) Long pid) {
-		ModelAndView modelAndView = new ModelAndView("newest");
-		if (pid == null) pid = 0L;
-		long amount = newestAudioService.getNewestAudioAmount();
-		if (pid >= amount) {
-			pid = 0L;
-		}
-		modelAndView.addObject("audio", newestAudioService.getNewestAudioByPid(++pid));
-		return modelAndView;
-	}
-
-	@RequestMapping(value = "/buynew", method = RequestMethod.POST)
-	public ModelAndView buyNewestAudio(@RequestParam(value = "id") Long id,
-									   @RequestParam(value = "pid") Long pid) {
-		ModelAndView modelAndView = new ModelAndView("newest");
-		String msisdn = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-		Audio audio = userService.buyAudioById(msisdn, id);
-		long amount = newestAudioService.getNewestAudioAmount();
-		if (pid > amount) {
-			pid = 0L;
-		}
-		if (audio == null) {
-			modelAndView.addObject("err", "Эта композиция уже была куплена Вами ранее.");
-		} else {
-			modelAndView.addObject("msg", "Вы купили: " + audio);
-		}
-		modelAndView.addObject("audio", newestAudioService.getNewestAudioByPid(pid));
-
+		if (id == null) id = 0L;
+		modelAndView.addObject("audio", audioService.getNextPopularAudio(id));
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/hits")
-	public ModelAndView getHitsAudio(@RequestParam(value = "pid", required = false) Long pid) {
+	public ModelAndView getHitsAudio(@RequestParam(value = "id", required = false) Long id) {
 		ModelAndView modelAndView = new ModelAndView("hits");
-		if (pid == null) pid = 0L;
-		long amount = hitsAudioService.getHitsAudioAmount();
-		if (pid >= amount) {
-			pid = 0L;
-		}
-		modelAndView.addObject("audio", hitsAudioService.getHitsAudioByPid(++pid));
+		if (id == null) id = 0L;
+		modelAndView.addObject("audio", audioService.getNextHitsAudio(id));
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/buyhit", method = RequestMethod.POST)
-	public ModelAndView buyHitsAudio(@RequestParam(value = "id") Long id,
-									 @RequestParam(value = "pid") Long pid) {
-		ModelAndView modelAndView = new ModelAndView("hits");
+	@RequestMapping(value = "/newest")
+	public ModelAndView getNewestAudio(@RequestParam(value = "id", required = false) Long id) {
+		ModelAndView modelAndView = new ModelAndView("newest");
+		if (id == null) id = 0L;
+		modelAndView.addObject("audio", audioService.getNextNewestAudio(id));
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/buypop", method = RequestMethod.POST)
+	public ModelAndView buyPopular(@RequestParam(value = "id") Long id) {
+		ModelAndView popular = new ModelAndView("popular");
 		String msisdn = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
 		Audio audio = userService.buyAudioById(msisdn, id);
-		long amount = hitsAudioService.getHitsAudioAmount();
-		if (pid > amount) {
-			pid = 0L;
-		}
 		if (audio == null) {
-			modelAndView.addObject("err", "Эта композиция уже была куплена Вами ранее.");
+			popular.addObject("err", "Эта композиция уже была куплена Вами ранее.");
 		} else {
-			modelAndView.addObject("msg", "Вы купили: " + audio);
+			popular.addObject("msg", "Вы купили: " + audio);
 		}
-		modelAndView.addObject("audio", hitsAudioService.getHitsAudioByPid(pid));
+		popular.addObject("audio", audioService.getNextPopularAudio(--id));
+		return popular;
+	}
 
-		return modelAndView;
+	@RequestMapping(value = "/buynew", method = RequestMethod.POST)
+	public ModelAndView buyNew(@RequestParam(value = "id") Long id) {
+		ModelAndView newest = new ModelAndView("newest");
+		String msisdn = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+		Audio audio = userService.buyAudioById(msisdn, id);
+		if (audio == null) {
+			newest.addObject("err", "Эта композиция уже была куплена Вами ранее.");
+		} else {
+			newest.addObject("msg", "Вы купили: " + audio);
+		}
+		newest.addObject("audio", audioService.getNextNewestAudio(--id));
+		return newest;
+	}
+
+	@RequestMapping(value = "/buyhit", method = RequestMethod.POST)
+	public ModelAndView buyHit(@RequestParam(value = "id") Long id) {
+		ModelAndView hits = new ModelAndView("hits");
+		String msisdn = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+		Audio audio = userService.buyAudioById(msisdn, id);
+		if (audio == null) {
+			hits.addObject("err", "Эта композиция уже была куплена Вами ранее.");
+		} else {
+			hits.addObject("msg", "Вы купили: " + audio);
+		}
+		hits.addObject("audio", audioService.getNextHitsAudio(--id));
+		return hits;
 	}
 }

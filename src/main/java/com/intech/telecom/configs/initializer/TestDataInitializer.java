@@ -1,8 +1,6 @@
 package com.intech.telecom.configs.initializer;
 
-import com.intech.telecom.models.content.HitsAudio;
-import com.intech.telecom.models.content.NewestAudio;
-import com.intech.telecom.models.content.PopularAudio;
+import com.intech.telecom.models.content.Audio;
 import com.intech.telecom.models.members.Role;
 import com.intech.telecom.models.members.User;
 import com.intech.telecom.service.*;
@@ -23,13 +21,8 @@ public class TestDataInitializer {
 	RoleService roleService;
 
 	@Autowired
-	PopularAudioSerice popularAudioSerice;
+	AudioService audioService;
 
-	@Autowired
-	NewestAudioService newestAudioService;
-
-	@Autowired
-	HitsAudioService hitsAudioService;
 
 	private void init() {
 		Role userRole = new Role("USER");
@@ -55,23 +48,21 @@ public class TestDataInitializer {
 		userService.addUser(user);
 		userService.addUser(user2);
 
-		NewestAudio nAudio = new NewestAudio("New Artist", "New Song");
-		NewestAudio nAudio2 = new NewestAudio("New Artist", "New Song 2");
+		Audio a1 = new Audio("Linkin Park", "With You", false, false, true);
+		Audio a2 = new Audio("Avril Lavigne", "Losing Grip", false, false, true);
+		Audio a3 = new Audio("New Artist", "New Song", true, false, false);
+		Audio a4 = new Audio("New Artist", "New Song 2", true, false, false);
+		Audio a5 = new Audio("Linkin Park", "In The End", false, true, true);
+		Audio a6 = new Audio("New Cool Band", "New Hit Song", true, true, true);
+		Audio a7 = new Audio("Test", "Test", false, false, false);
 
-		newestAudioService.add(nAudio);
-		newestAudioService.add(nAudio2);
-
-		PopularAudio pAudio = new PopularAudio("Linkin Park", "With you");
-		PopularAudio pAudio2 = new PopularAudio("Avril Lavigne", "Losing grip");
-
-		popularAudioSerice.add(pAudio);
-		popularAudioSerice.add(pAudio2);
-
-		HitsAudio hAudio = new HitsAudio("Group", "Hit Song");
-		HitsAudio hAudio2 = new HitsAudio("Linkin Park", "Faint");
-
-		hitsAudioService.add(hAudio);
-		hitsAudioService.add(hAudio2);
+		audioService.add(a1);
+		audioService.add(a2);
+		audioService.add(a3);
+		audioService.add(a4);
+		audioService.add(a5);
+		audioService.add(a6);
+		audioService.add(a7);
 
 	}
 }
